@@ -1,0 +1,23 @@
+locals {
+  volume_mounts = {
+    for vm in local.capabilities.volume_mounts : vm.name =>
+    {
+      name              = vm.name
+      mount_path        = vm.mount_path
+      mount_propagation = lookup(vm, "mount_propagation", null)
+      sub_path          = lookup(vm, "sub_path", null)
+      read_only         = tobool(lookup(vm, "read_only", null))
+      sub_path_expr     = lookup(vm, "sub_path_expr", null)
+    }
+  }
+
+  volumes = {
+    for v in local.capabilities.volumes : v.name =>
+    {
+      name                    = v.name
+      persistent_volume_claim = jsondecode(lookup(v, "persistent_volume_claim", "null"))
+      empty_dir               = jsondecode(lookup(v, "empty_dir", "null"))
+      host_path               = jsondecode(lookup(v, "host_path", "null"))
+    }
+  }
+}
