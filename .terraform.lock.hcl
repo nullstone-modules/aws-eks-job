@@ -109,15 +109,23 @@ provider "registry.opentofu.org/hashicorp/random" {
   ]
 }
 
-provider "registry.terraform.io/nullstone-io/ns" {
+provider "registry.opentofu.org/nullstone-io/ns" {
   version     = "0.10.0"
   constraints = "~> 0.10.0"
   hashes = [
     "h1:3i4K1Na4RjwkUKFHBR0HK+JkIQMT2aWNGZ1iFbgDSPQ=",
+    "h1:5lHvP1UYgXqSza0s+0u+bd/vaP+l37EwYuZpTX7mCxo=",
     "h1:9JShDtkMgDLo2J8cEuOLo8JGYRHDMdZ/vP0a9BukdnY=",
     "h1:B44417Eve4O/j97HyC6YWSyM4ZZjDvvTj49nUt/XhVE=",
     "h1:FUoT7X6FnkHvIl3+zSGmKjcb+UAnaKojHNqkpz6nu4E=",
+    "h1:GqRmZEenLcdLQG0N6JjrCWyaHaoA4dpg7WVNgM8KaUY=",
+    "h1:StXcwT9FRa+HCQjOJdS4Q5ilOPuO+slBm8mpTfifhjE=",
+    "h1:WuyS+iP+Fud8glXU+HDz+AyFBgTF/4MihoVJE6yaiyw=",
+    "h1:h4QQJ7M/PILHIIiYrn7UrV+x/H9mnyhGS4shtdATQvo=",
+    "h1:iBnQDQvIDaiotHr2Ob4c/KoUur/msMwQKelSUJG28Io=",
+    "h1:n2ARlt3bU9EA2duZ2V6Bb0XkRzUU8DktA2iQb79tbWg=",
     "h1:rfh7XrjU+aNLro5gtcONvSio/jZikB7OOyrxv7AlSQI=",
+    "h1:wTU12MwsptVP8LrupN8h816eW27sKnc6By7ldHn8AOY=",
     "zh:08f956f8dd8b397ef2cb72c6adf0f4a570caba28cf692f84be5f36ebae1a7976",
     "zh:1ea344603970e8bd99f7b5133d8a7cb69955ab8575e6ec51630217ecb5bd2fc1",
     "zh:1fd2358462b7f19cb29b8fb81bcb23403588bd1d3606b1de3a06745d7daee544",
