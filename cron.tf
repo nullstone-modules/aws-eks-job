@@ -15,6 +15,7 @@ locals {
       timezone                      = lookup(cj, "timezone", null)
       starting_deadline_seconds     = lookup(cj, "starting_deadline_seconds", null)
       ttl_seconds_after_finished    = lookup(cj, "ttl_seconds_after_finished", null)
+      env                           = lookup(cj, "env", {})
     }
   }
 }
@@ -87,6 +88,16 @@ resource "kubernetes_cron_job_v1" "this" {
 
               dynamic "env" {
                 for_each = local.env_vars_plain
+
+                content {
+                  name  = env.key
+                  value = env.value
+                }
+              }
+
+              // Per-cron env injected by the cron-trigger capability (e.g. NULLSTONE_TRIGGER)
+              dynamic "env" {
+                for_each = each.value.env
 
                 content {
                   name  = env.key

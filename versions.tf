@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     ns = {
-      source  = "nullstone-io/ns"
-      version = "~> 0.9.0"
+      source  = "registry.terraform.io/nullstone-io/ns"
+      version = "~> 0.10.0"
     }
     aws = {
       source = "hashicorp/aws"
