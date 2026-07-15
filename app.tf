@@ -18,5 +18,6 @@ locals {
     main_container           = local.main_container_name
     job_definition_namespace = local.kubernetes_namespace
     job_definition_name      = local.job_definition_name
+    image_repo_name          = module.scaffold.repository_name
   })
 }
