@@ -75,6 +75,58 @@ locals {
       value = v
     }
   ]
+  // env vars with "{{ k8s.field(apiVersion, fieldPath) }}"
+  pod_field_refs = [
+    for k, v in local.env_var_field_refs : {
+      name = k
+      valueFrom = {
+        fieldRef = {
+          apiVersion = v.api_version
+          fieldPath  = v.field_path
+        }
+      }
+    }
+  ]
+  // env vars with "{{ k8s.configMap(key, name[, optional]) }}"
+  pod_config_map_refs = [
+    for k, v in local.env_var_config_map_refs : {
+      name = k
+      valueFrom = {
+        configMapKeyRef = {
+          key      = v.key
+          name     = v.name
+          optional = v.optional
+        }
+      }
+    }
+  ]
+  // env vars with "{{ k8s.resourceField(resource[, container, divisor]) }}"
+  pod_resource_field_refs = [
+    for k, v in local.env_var_resource_field_refs : {
+      name = k
+      valueFrom = {
+        resourceFieldRef = {
+          resource      = v.resource
+          containerName = v.container
+          divisor       = v.divisor
+        }
+      }
+    }
+  ]
+  // env vars with "{{ k8s.fileKey(key, path, volumeName) }}"
+  // Requires K8s 1.34+ and EnvFiles feature gate
+  pod_file_key_refs = [
+    for k, v in local.env_var_file_key_refs : {
+      name = k
+      valueFrom = {
+        fileKeyRef = {
+          key        = v.key
+          path       = v.path
+          volumeName = v.volume_name
+        }
+      }
+    }
+  ]
   pod_secrets = [
     for k in local.all_secret_keys : {
       name = k
@@ -113,7 +165,7 @@ locals {
               name         = local.main_container_name
               image        = local.effective_image_url
               args         = local.command
-              env          = concat(local.pod_env_vars, local.pod_secrets)
+              env          = concat(local.pod_env_vars, local.pod_field_refs, local.pod_config_map_refs, local.pod_resource_field_refs, local.pod_file_key_refs, local.pod_secrets)
               volumeMounts = local.pod_volume_mounts
               resources    = local.container_resources
             }
