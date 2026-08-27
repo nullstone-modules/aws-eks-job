@@ -4,6 +4,7 @@ friendly_name: EKS Job
 description: Creates a Nullstone app that is runnable through a n EKS cluster.
 category: app
 subcategory: container
+app_type: generic
 provider_types:
     - aws
 platform: k8s
