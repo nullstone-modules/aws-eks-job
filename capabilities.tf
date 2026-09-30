@@ -22,21 +22,27 @@ locals {
   cap_env_prefixes = tomap({
     x = ""
   })
+  // cap_prefixes is a map indexed by capability name which points to the env_prefix in local.cap_modules
+  cap_prefixes = tomap({
+    x = ""
+  })
 
   capabilities = {
     env = [
       {
-        cap_tf_id = "x"
-        name      = ""
-        value     = ""
+        cap_tf_id  = "x"
+        capability = "x"
+        name       = "EXAMPLE_ENV"
+        value      = ""
       }
     ]
 
     secrets = [
       {
-        cap_tf_id = "x"
-        name      = ""
-        value     = sensitive("")
+        cap_tf_id  = "x"
+        capability = "x"
+        name       = "EXAMPLE_SECRET"
+        value      = sensitive("")
       }
     ]
 
@@ -45,8 +51,9 @@ locals {
     // They will be flattened into list(string) when we output from this module
     private_urls = [
       {
-        cap_tf_id = "x"
-        url       = "http://example"
+        cap_tf_id  = "x"
+        capability = "x"
+        url        = "http://example"
       }
     ]
 
@@ -55,8 +62,9 @@ locals {
     // They will be flattened into list(string) when we output from this module
     public_urls = [
       {
-        cap_tf_id = "x"
-        url       = "https://example.com"
+        cap_tf_id  = "x"
+        capability = "x"
+        url        = "https://example.com"
       }
     ]
 
@@ -65,10 +73,11 @@ locals {
     // See https://docs.nullstone.io/extending/metrics/overview.html
     metrics = [
       {
-        cap_tf_id = "x"
-        name      = ""
-        type      = "usage|usage-percent|duration|generic"
-        unit      = ""
+        cap_tf_id  = "x"
+        capability = "x"
+        name       = ""
+        type       = "usage|usage-percent|duration|generic"
+        unit       = ""
 
         mappings = jsonencode({})
       }
@@ -76,9 +85,10 @@ locals {
 
     volumes = [
       {
-        cap_tf_id = "x"
-        name      = ""
-        empty_dir = jsonencode({})
+        cap_tf_id  = "x"
+        capability = "x"
+        name       = ""
+        empty_dir  = jsonencode({})
         persistent_volume_claim = jsonencode({
           claim_name = ""    // Required
           read_only  = false // Optional
@@ -89,6 +99,7 @@ locals {
     volume_mounts = [
       {
         cap_tf_id         = "x"
+        capability        = "x"
         name              = ""   // Required
         mount_path        = ""   // Required
         sub_path          = null // Path within the volume from which the container's volume should be mounted
@@ -100,6 +111,7 @@ locals {
     cron_jobs = [
       {
         cap_tf_id                     = "x"
+        capability                    = "x"
         name                          = ""
         labels                        = {}
         schedule                      = ""

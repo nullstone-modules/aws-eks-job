@@ -4,7 +4,7 @@ locals {
   command             = length(var.command) > 0 ? var.command : null
   effective_image_url = local.app_version == "" ? local.image_url : "${local.image_url}:${local.app_version}"
 
-  has_secrets = length(local.all_secret_keys) > 0
+  has_secrets = length(data.ns_env_layout.this.all_secret_keys) > 0
 
   container_resources = merge(
     {
@@ -70,14 +70,14 @@ locals {
   )
 
   pod_env_vars = [
-    for k, v in local.env_vars_plain : {
+    for k, v in data.ns_env_values.this.env_variables : {
       name  = k
       value = v
     }
   ]
   // env vars with "{{ k8s.field(apiVersion, fieldPath) }}"
   pod_field_refs = [
-    for k, v in local.env_var_field_refs : {
+    for k, v in data.ns_env_values.this.field_refs : {
       name = k
       valueFrom = {
         fieldRef = {
@@ -89,7 +89,7 @@ locals {
   ]
   // env vars with "{{ k8s.configMap(key, name[, optional]) }}"
   pod_config_map_refs = [
-    for k, v in local.env_var_config_map_refs : {
+    for k, v in data.ns_env_values.this.config_map_refs : {
       name = k
       valueFrom = {
         configMapKeyRef = {
@@ -102,7 +102,7 @@ locals {
   ]
   // env vars with "{{ k8s.resourceField(resource[, container, divisor]) }}"
   pod_resource_field_refs = [
-    for k, v in local.env_var_resource_field_refs : {
+    for k, v in data.ns_env_values.this.resource_field_refs : {
       name = k
       valueFrom = {
         resourceFieldRef = {
@@ -116,7 +116,7 @@ locals {
   // env vars with "{{ k8s.fileKey(key, path, volumeName) }}"
   // Requires K8s 1.34+ and EnvFiles feature gate
   pod_file_key_refs = [
-    for k, v in local.env_var_file_key_refs : {
+    for k, v in data.ns_env_values.this.file_key_refs : {
       name = k
       valueFrom = {
         fileKeyRef = {
@@ -128,7 +128,7 @@ locals {
     }
   ]
   pod_secrets = [
-    for k in local.all_secret_keys : {
+    for k in data.ns_env_layout.this.all_secret_keys : {
       name = k
       valueFrom = {
         secretKeyRef = {
