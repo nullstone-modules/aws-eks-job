@@ -88,7 +88,7 @@ resource "kubernetes_cron_job_v1" "this" {
 
               // env vars with plain "value"
               dynamic "env" {
-                for_each = local.env_vars_plain
+                for_each = data.ns_env_values.this.env_variables
 
                 content {
                   name  = env.key
@@ -98,7 +98,7 @@ resource "kubernetes_cron_job_v1" "this" {
 
               // env vars with "{{ k8s.field(apiVersion, fieldPath) }}"
               dynamic "env" {
-                for_each = local.env_var_field_refs
+                for_each = data.ns_env_values.this.field_refs
                 content {
                   name = env.key
                   value_from {
@@ -112,7 +112,7 @@ resource "kubernetes_cron_job_v1" "this" {
 
               // env vars with "{{ k8s.configMap(key, name[, optional]) }}"
               dynamic "env" {
-                for_each = local.env_var_config_map_refs
+                for_each = data.ns_env_values.this.config_map_refs
                 content {
                   name = env.key
                   value_from {
@@ -127,7 +127,7 @@ resource "kubernetes_cron_job_v1" "this" {
 
               // env vars with "{{ k8s.resourceField(resource[, container, divisor]) }}"
               dynamic "env" {
-                for_each = local.env_var_resource_field_refs
+                for_each = data.ns_env_values.this.resource_field_refs
                 content {
                   name = env.key
                   value_from {
@@ -143,7 +143,7 @@ resource "kubernetes_cron_job_v1" "this" {
               // env vars with "{{ k8s.fileKey(key, path, volumeName) }}"
               // Requires K8s 1.34+ and EnvFiles feature gate
               dynamic "env" {
-                for_each = local.env_var_file_key_refs
+                for_each = data.ns_env_values.this.file_key_refs
                 content {
                   name = env.key
                   value_from {
@@ -167,7 +167,7 @@ resource "kubernetes_cron_job_v1" "this" {
               }
 
               dynamic "env" {
-                for_each = toset(local.all_secret_keys)
+                for_each = data.ns_env_layout.this.all_secret_keys
 
                 content {
                   name = env.value
